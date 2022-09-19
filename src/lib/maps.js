@@ -221,10 +221,10 @@ export const makeDeliveryMesssaging = (
     return messages.DELIVERY.noStreet
   } else {
     if (count) {
-      const locationMsg = count > 1 ? 'locations deliver' : 'location delivers'
+      const locationMsg = count > 1 ? 'Schedule a MRKTBOX delivery or order a quick delivery from the nearest store' : ''
       return {
         title: messages.DELIVERY.hasDelivery.title,
-        msg: `${count} ${locationMsg} to your address.`,
+        msg: `${locationMsg}`,
         error: null,
       }
     } else {

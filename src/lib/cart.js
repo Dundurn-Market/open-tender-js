@@ -732,6 +732,7 @@ export const makeSimpleCart = (cart) => {
       groups: groups,
       made_for: i.madeFor || '',
       notes: i.notes || '',
+      frequency: i.frequency? i.frequency : 'SINGLE'
     }
   })
   return simpleCart
