@@ -378,7 +378,7 @@ export const makeUpsellItems = (itemIds, itemLookup) => {
     })
 }
 
-export const rehydrateOrderItem = (menuItem, simpleCartItem) => {
+export const rehydrateOrderItem = (menuItem, simpleCartItem, recurrence) => {
   const orderItem = makeOrderItem(menuItem, true, [], simpleCartItem)
   orderItem.quantity = simpleCartItem.quantity || 1
   if (simpleCartItem.groups && simpleCartItem.groups.length) {
@@ -394,7 +394,7 @@ export const rehydrateOrderItem = (menuItem, simpleCartItem) => {
     })
   }
   const pricedItem = calcPrices(orderItem)
-  return pricedItem
+  return recurrence? {...pricedItem, frequency: recurrence.frequency, recurrence_id: recurrence.id} : pricedItem
 }
 
 export const rehydrateCart = (menuItems, simpleCartItems) => {
@@ -403,6 +403,22 @@ export const rehydrateCart = (menuItems, simpleCartItems) => {
     const menuItem = menuItems.find((i) => i.id === item.id)
     if (menuItem) {
       const orderItem = rehydrateOrderItem(menuItem, item)
+      orderItems.push(orderItem)
+    }
+  })
+  const cart = orderItems.map((i, index) => ({ ...i, index }))
+  const cartCounts = calcCartCounts(cart)
+  return { cart, cartCounts }
+}
+
+export const rehydrateCartWithRecurrences = (menuItems, order, recurrences) => {
+  let orderItems = []
+  const simpleCartItems = order.cart
+  simpleCartItems.forEach((item) => {
+    const menuItem = menuItems.find((i) => i.id === item.id)
+    const recurrence = recurrences.find(r => r.item_id === item.id && r.next_order_id === order.order_id)
+    if (menuItem) {
+      const orderItem = rehydrateOrderItem(menuItem, item, recurrence)
       orderItems.push(orderItem)
     }
   })
@@ -732,7 +748,8 @@ export const makeSimpleCart = (cart) => {
       groups: groups,
       made_for: i.madeFor || '',
       notes: i.notes || '',
-      frequency: i.frequency? i.frequency : 'SINGLE'
+      frequency: i.frequency? i.frequency : 'SINGLE',
+      recurrence_id: i.recurrence_id || null
     }
   })
   return simpleCart
