@@ -170,7 +170,7 @@ export const makePickupMesssaging = (
       return messages.PICKUP.addressFar
     } else {
       return {
-        title: `${count} ${messages.PICKUP.address.title}`,
+        title: `${messages.PICKUP.address.title}`,
         msg: messages.PICKUP.address.msg,
       }
     }
@@ -179,7 +179,7 @@ export const makePickupMesssaging = (
       return messages.PICKUP.geoFar
     } else {
       return {
-        title: `${count} ${messages.PICKUP.geo.title}`,
+        title: `${messages.PICKUP.geo.title}`,
         msg: messages.PICKUP.geo.msg,
       }
     }
@@ -281,12 +281,12 @@ export const makeDisplayedRevenueCenters = (
 export const LOCATIONS_MESSAGES = {
   PICKUP: {
     default: {
-      title: 'Please choose a location',
-      msg: 'Or enter a zip code to find the location nearest you.',
+      title: 'Select an order type to see locations',
+      msg: 'Or enter your address to find the location nearest you.',
     },
     address: {
-      title: 'locations near you',
-      msg: 'Please choose a location below.',
+      title: 'There are locations near you',
+      msg: 'Please select the type of order you\'d like to make',
     },
     addressFar: {
       title:
@@ -294,8 +294,8 @@ export const LOCATIONS_MESSAGES = {
       msg: 'Sorry about that. Please enter a different address or head back and choose a different order type.',
     },
     geo: {
-      title: 'locations in your area',
-      msg: 'Please enter an address or zip code for a more accurate result.',
+      title: 'There are locations near you',
+      msg: 'Please select the type of order you\'d like to make',
     },
     geoFar: {
       title:

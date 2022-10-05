@@ -545,7 +545,7 @@ export const makeOrderTimes = (orderTimes, tz) => {
     if (startDate < orderByDate) {
       startDate = add(startDate, { days: 7 })
     }
-    const orderBy = { ...i.order_by, date: orderByDate }
+    const orderBy = { ...i.order_by, date: orderByDate, iso: dateToIso(orderByDate, tz), }
     return {
       ...i,
       date: startDate,
