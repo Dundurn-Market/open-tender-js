@@ -9,7 +9,7 @@ import {
   makeWeekday,
   fmtDate,
 } from './datetimes'
-import { capitalize } from './helpers'
+import { capitalize, isString } from './helpers'
 
 export const displayPrice = (price) => {
   return parseFloat(price).toFixed(2)
@@ -66,7 +66,7 @@ export const makeModifierNames = (item) => {
 }
 
 export const convertStringToArray = (str) => {
-  return str
+  return str && isString(str)
     ? str
         .split(',')
         .map((i) => i.trim())

@@ -229,6 +229,33 @@ export const makeReadableDateStrFromIso = (iso, tz, verbose = false) => {
   }
 }
 
+export const makeReadableDateStrFromOrderWindow = (orderWindow, tz) => {
+  const date = utcToZonedTime(parseISO(orderWindow.iso), tz)
+  //const timeString = format(date, TIME).toLowerCase()
+  const dateString = makeLocalDateStr(date)
+  const start = convert24HTimeStrTo12H(orderWindow.start_time)
+  const end = convert24HTimeStrTo12H(orderWindow.end_time)
+  if (dateString === todayDate()) {
+    return `Today @ ${start} - ${end}`
+  } else if (dateString === tomorrowDate()) {
+    return `Tmrw @ ${start} - ${end}`
+  } else {
+    return `${format(date, 'EEE, MMM d')} @ ${start} - ${end}`
+  }
+}
+
+const convert24HTimeStrTo12H = (timeStr) => {
+  let timeNums = timeStr.split(':')
+  let hourNum = parseInt(timeNums[0])
+  if (isNaN(hourNum) || timeNums.length < 2) return timeStr
+
+  if (hourNum <= 12) {
+    return timeStr + (hourNum === 12? 'pm':'am')
+  } else {
+    return (hourNum - 12) + ':' + timeNums[1] + 'pm'
+  }
+}
+
 export const makeRequestedIso = (requestedAt) => {
   return !requestedAt || requestedAt === 'asap'
     ? cleanISOString(new Date())
