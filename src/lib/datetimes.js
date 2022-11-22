@@ -137,6 +137,10 @@ export const adjustIso = (iso, tz, adjustment) => {
   return dateToIso(add(date, adjustment), tz)
 }
 
+export const isDateOld = (date, hoursOld = 1) => {
+  return date < add(new Date(), { hours: -1 * hoursOld })
+}
+
 export const adjustZonedIso = (zonedIso, tz, adjustment) => {
   const adjusted = add(toDate(zonedIso), adjustment)
   const zoned = utcToZonedTime(adjusted, tz)
